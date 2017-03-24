@@ -5,8 +5,8 @@
  * by R. Terry Lessly
  *
  *******************************************************************************/
-#ifndef _IRRangeDetector_H_
-#define _IRRangeDetector_H_
+#ifndef _IRProximityArray_H_
+#define _IRProximityArray_H_
 
 #include <Arduino.h>
 #include <Debug.h>
@@ -53,7 +53,7 @@ class IRProximityArray : public EventSource
     // Class variables
     //**************************************************************************
     /// The Range detection event ID.
-    public: static EVENT_ID PROXIMITY_EVENT;
+    public: static const EVENT_ID PROXIMITY_EVENT = (EventSourceID::IRProximityArray, EventCode::Detect);
 
     //**************************************************************************
     // Constructors

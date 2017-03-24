@@ -17,7 +17,7 @@ static DebugHelper Debug("IRProximityArray");
 
 const float IRProximityArray::NO_DETECTION = -99;
 
-EVENT_ID IRProximityArray::PROXIMITY_EVENT = EventSource::GenerateEventID();
+//EVENT_ID IRProximityArray::PROXIMITY_EVENT = EventSource::GenerateEventID();
 
 
 IRProximityArray::IRProximityArray(int ir1Pin, int ir2Pin, int ir3Pin, int ir4Pin, int ir5Pin, int ir6Pin)
