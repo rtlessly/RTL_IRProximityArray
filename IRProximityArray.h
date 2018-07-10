@@ -8,8 +8,8 @@
 #ifndef _IRProximityArray_H_
 #define _IRProximityArray_H_
 
-#include <Arduino.h>
-#include <Debug.h>
+//#include <Arduino.h>
+#include <RTL_Stdlib.h>
 #include <EventSource.h>
 
 // Maximum number of IR proximity sensors the component can handle
@@ -44,16 +44,18 @@
 //******************************************************************************
 class IRProximityArray : public EventSource
 {
+	DECLARE_CLASSNAME;
+	
     //**************************************************************************
     // Constants
     //**************************************************************************
-    public: static const float NO_DETECTION;
+    public: static const float NO_DETECTION = -999;
 
     //**************************************************************************
     // Class variables
     //**************************************************************************
     /// The Range detection event ID.
-    public: static const EVENT_ID PROXIMITY_EVENT = (EventSourceID::IRProximityArray, EventCode::Detect);
+    public: static const EVENT_ID PROXIMITY_EVENT = (EventSourceID::IRProximityArray | EventCode::Detect);
 
     //**************************************************************************
     // Constructors
@@ -77,8 +79,8 @@ class IRProximityArray : public EventSource
     /// Resets the array so that it can make a fresh detection
     public: void Reset();
 
-    /// Polling method for the EventDispatcher to call
-    public: virtual void Poll();
+    /// Polling method for the Scheduler to call
+    public: void Poll();
 
     //**************************************************************************
     // Internal state

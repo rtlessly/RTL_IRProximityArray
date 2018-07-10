@@ -7,21 +7,21 @@
  * by R. Terry Lessly
  *
  *******************************************************************************/
+#include <Arduino.h>
+#include <RTL_Debug.h>
+
 #include "IRProximityArray.h"
+
 
 #define SENSITIVITY 20
 
 
-static DebugHelper Debug("IRProximityArray");
-
-
-const float IRProximityArray::NO_DETECTION = -99;
-
-//EVENT_ID IRProximityArray::PROXIMITY_EVENT = EventSource::GenerateEventID();
+DEFINE_CLASSNAME(IRProximityArray);
 
 
 IRProximityArray::IRProximityArray(int ir1Pin, int ir2Pin, int ir3Pin, int ir4Pin, int ir5Pin, int ir6Pin)
 {
+    _id = "IRProximityArray";
     _sensorCount = 0;
     _lastReading = NO_DETECTION;
 
@@ -47,8 +47,7 @@ int IRProximityArray::AddSensor(int pin)
         index = _sensorCount++;
         _sensors[index] = pin;
         pinMode(pin, INPUT);
-        
-        Debug.Log("AddSensor => IR sensor[%i] added on pin=%i", index, pin);
+        TRACE(Logger(_classname_, __func__, this) << F(": Added sensor[") << index << F(" on pin=") << pin << endl);
     }
 
     // Compute delta value of sensor array.
@@ -111,16 +110,15 @@ float IRProximityArray::Read()
 
 void IRProximityArray::Poll()
 {
+    TRACE(Logger(_classname_, __func__, this) << endl); 
+
     float reading = Read();
 
     if (reading != _lastReading)
     {
-        Debug.Log("Poll => reading=%f, _lastReading=%f", reading, _lastReading);
+        TRACE(Logger(_classname_, __func__, this) << F(": reading=") << reading << F(", _lastReading=") << _lastReading << endl);
 
         _lastReading = reading;
-        
-        Event event(PROXIMITY_EVENT, reading);
-        
-        DispatchEvent(&event);
+        QueueEvent(PROXIMITY_EVENT, reading);
     }
 }
